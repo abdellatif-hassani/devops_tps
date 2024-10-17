@@ -1,5 +1,4 @@
 pipeline {
-
     agent any
 
     environment {
@@ -39,12 +38,13 @@ pipeline {
             steps {
                 sshagent(['ec2-ssh-key']) {
                     sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@35.180.109.66 '
+                        ssh -o StrictHostKeyChecking=no ubuntu@35.180.109.66 "
                             docker pull ${DOCKER_IMAGE}:latest
                             docker stop webapp1 || true
                             docker rm webapp1 || true
                             docker run -d -p 80:80 --name webapp1 ${DOCKER_IMAGE}:latest
-                        '
+                            docker system prune -f
+                        "
                     '''
                 }
             }
@@ -54,6 +54,12 @@ pipeline {
     post {
         always {
             sh 'docker logout'
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed! Check the logs for details.'
         }
     }
 }
