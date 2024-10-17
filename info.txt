@@ -1,0 +1,11 @@
+# Navigate to the project directory
+cd /var/lib/jenkins/workspace/Job1 TP2 
+
+# Build the Docker image
+docker build -t abdellatif2002/web-app1:latest .
+
+# Log in to Docker Hub (if not already logged in via Jenkins credentials)
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+# Push the image to Docker Hub
+docker push abdellatif2002/web-app1:latest

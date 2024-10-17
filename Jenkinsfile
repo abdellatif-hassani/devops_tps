@@ -6,7 +6,6 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-cred')
         DOCKER_IMAGE = "abdellatif2002/web-app1"
         DOCKER_TAG = "v${BUILD_NUMBER}"
-        DOCKER_HOST = 'tcp://0.0.0.0:2375' // Set the Docker host
     }
 
     stages {
